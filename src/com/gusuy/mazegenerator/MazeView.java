@@ -28,7 +28,6 @@ public class MazeView extends JFrame {
 		
 		// Create maze panel and add to frame
 		this.mazePanel = new MazePanel();
-		this.mazePanel.setBackground(Color.BLUE);
 		this.mazePanel.setPreferredSize(new Dimension(600, 600));
 		this.add(mazePanel);
 		
@@ -36,7 +35,6 @@ public class MazeView extends JFrame {
 		this.controlPanel = new JPanel();
 		generateMazeButton = new JButton("Generate Maze");
 		controlPanel.add(generateMazeButton);
-		this.controlPanel.setBackground(Color.GRAY);
 		this.controlPanel.setPreferredSize(new Dimension(300, 600));
 		this.add(controlPanel, BorderLayout.EAST);
 		

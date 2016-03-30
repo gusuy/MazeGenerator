@@ -5,5 +5,4 @@ Java Application (Development Phase)
 
 Upcoming Features:
 - Maze size options
-- Dynamically resizing UI
 - "Play" functionality
