@@ -8,14 +8,16 @@ import java.util.Random;
 public class Maze {
 	private Cell[][] maze;					// Structure of the maze - 2D array of cells
 	private int width, height;				// Maze width and height (measured by number of cells)
+	private Cell startCell, endCell;
 	
 	public Maze(int width, int height) {
 		this.width = width;
 		this.height = height;
 		
 		generateMazeStructure();
-		// Starting cell is maze[0][0]
-		carveMaze(getStartPoint());
+		startCell = maze[0][0];
+		endCell = maze[width-1][height-1];
+		carveMaze(startCell);
 	}
 	
 	
@@ -24,8 +26,13 @@ public class Maze {
 	}
 	
 	
-	public Cell getStartPoint() {
-		return maze[0][0];
+	public Cell getStartCell() {
+		return startCell;
+	}
+	
+	
+	public Cell getEndCell() {
+		return endCell;
 	}
 	
 	

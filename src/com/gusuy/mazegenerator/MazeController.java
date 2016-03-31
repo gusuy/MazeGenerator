@@ -53,7 +53,7 @@ public class MazeController {
 				}
 				
 				model = new Maze(mazeWidth, mazeHeight);
-				player = new Player(model.getStartPoint());
+				player = new Player(model.getStartCell());
 				view.setMaze(model.getMaze(), mazeWidth, mazeHeight);
 				view.setPlayerLocation(player.getCurCell());
 				view.calculateCellWidth();
@@ -81,28 +81,35 @@ public class MazeController {
 		});
 	}
 	
-	
+
 	private void addArrowKeyListener() {
 		view.addArrowKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
+				boolean didMove = false;
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP:
-						player.move(Cell.TOP_EDGE);
+						didMove = player.move(Cell.TOP_EDGE);
 						break;
 					case KeyEvent.VK_DOWN:
-						player.move(Cell.BOT_EDGE);
+						didMove = player.move(Cell.BOT_EDGE);
 						break;
 					case KeyEvent.VK_LEFT:
-						player.move(Cell.LEFT_EDGE);
+						didMove = player.move(Cell.LEFT_EDGE);
 						break;
 					case KeyEvent.VK_RIGHT:
-						player.move(Cell.RIGHT_EDGE);
+						didMove = player.move(Cell.RIGHT_EDGE);
 						break;
 					default:
 						break;
 				}
-				view.setPlayerLocation(player.getCurCell());
-				view.repaintMaze();
+				if (didMove) {
+					view.setPlayerLocation(player.getCurCell());
+					view.repaintMaze();
+					if (player.getCurCell().equals(model.getEndCell())) {
+						player.finished();
+						view.finishAlert();
+					}
+				}
 			}
 			public void keyTyped(KeyEvent e) {				
 			}	

@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -127,6 +128,11 @@ public class MazeView extends JFrame {
 	
 	public void requestMazeFocus() {
 		mazePanel.requestFocusInWindow();
+	}
+	
+	
+	public void finishAlert() {
+		JOptionPane.showMessageDialog(mazePanel, "Finished!", null, JOptionPane.INFORMATION_MESSAGE, null);		
 	}
 	
 	
