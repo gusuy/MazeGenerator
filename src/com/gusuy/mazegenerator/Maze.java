@@ -14,6 +14,7 @@ public class Maze {
 		this.height = height;
 		
 		generateMazeStructure();
+		// Starting cell is maze[0][0]
 		carveMaze(this.maze[0][0]);
 	}
 	
@@ -54,7 +55,6 @@ public class Maze {
 	
 	
 	// Recursive backtracking algorithm
-	// Generates a "perfect" maze - only one solution
 	// Carves a path through a maze initialized with all walls up
 	private void carveMaze(Cell curCell) {
 		curCell.setVisited(true);
@@ -81,7 +81,4 @@ public class Maze {
 	}
 	
 	
-	public void getSolution() {
-		
-	}
 }
