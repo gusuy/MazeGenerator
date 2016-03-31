@@ -1,12 +1,14 @@
 package com.gusuy.mazegenerator;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import javax.swing.JRadioButton;
 public class MazeView extends JFrame {	
 	private Cell[][] maze;
 	private int mazeWidth, mazeHeight, cellWidth;
+	public Cell playerLocation;
 	
 	private JPanel controlPanel;					// Panel containing user input options
 	private JButton generateMazeButton;
@@ -27,19 +30,19 @@ public class MazeView extends JFrame {
 	private JPanel mazePanel;						// Panel containing maze
 	
 	public MazeView() {
-		this.setTitle("Maze Generator");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(new BorderLayout());
+		setTitle("Maze Generator");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
 		
 		// Create maze panel and add to frame
-		this.mazePanel = new MazePanel();
-		this.mazePanel.setPreferredSize(new Dimension(600, 600));
-		this.add(mazePanel);
+		mazePanel = new MazePanel();
+		mazePanel.setPreferredSize(new Dimension(600, 600));
+		add(mazePanel);
 		
 		// Create control panel and add to frame
-		this.controlPanel = new JPanel();
-		this.controlPanel.setLayout(new GridBagLayout());
-		this.controlPanel.setPreferredSize(new Dimension(300, 600));
+		controlPanel = new JPanel();
+		controlPanel.setLayout(new GridBagLayout());
+		controlPanel.setPreferredSize(new Dimension(300, 600));
 		
 		generateMazeButton = new JButton("Generate Maze");
 		GridBagConstraints gmConstraint = new GridBagConstraints();
@@ -62,25 +65,30 @@ public class MazeView extends JFrame {
 		lConstraint.gridx = 2; lConstraint.gridy = 1;
 		controlPanel.add(smlRadio, sConstraint); controlPanel.add(medRadio, mConstraint); controlPanel.add(lrgRadio, lConstraint);
 		
-		this.add(controlPanel, BorderLayout.EAST);
-		
-		this.pack();
-		this.setVisible(true);
+		add(controlPanel, BorderLayout.EAST);
+
+		pack();
+		setVisible(true);
 	}
 	
 	
 	public void addGenerateButtonListener(ActionListener generateButtonListener) {
-		this.generateMazeButton.addActionListener(generateButtonListener);
+		generateMazeButton.addActionListener(generateButtonListener);
 	}
 	
 	
-	public void addMazePanelResizeListener(ComponentListener MazePanelResizeListener) {
-		this.mazePanel.addComponentListener(MazePanelResizeListener);
+	public void addMazePanelResizeListener(ComponentListener mazePanelResizeListener) {
+		mazePanel.addComponentListener(mazePanelResizeListener);
+	}
+	
+	
+	public void addArrowKeyListener(KeyListener arrowKeyListener) {
+		mazePanel.addKeyListener(arrowKeyListener);
 	}
 	
 	
 	public ButtonGroup getSizeButtonGroup() {
-		return this.sizeButtonGroup;
+		return sizeButtonGroup;
 	}
 	
 	
@@ -91,25 +99,34 @@ public class MazeView extends JFrame {
 		this.mazeHeight = mazeHeight;
 	}
 	public Cell[][] getMaze() {
-		return this.maze;
+		return maze;
+	}
+	
+	
+	public void setPlayerLocation(Cell location) {
+		playerLocation = location;
 	}
 	
 	
 	public void repaintMaze() {
-		calculateCellWidth();
-		this.mazePanel.repaint();
+		mazePanel.repaint();
 	}
 	
 	
-	private void calculateCellWidth() {
-		if (this.mazeWidth < 1 || this.mazeHeight < 1) {
+	public void calculateCellWidth() {
+		if (mazeWidth < 1 || mazeHeight < 1) {
 			throw new IllegalStateException("Maze dimensions must be greater than 0.");
 		}
 		
-		int minPanelDimension = Math.min(this.mazePanel.getSize().width, this.mazePanel.getSize().height);
-		int maxMazeDimension = Math.max(this.mazeWidth, this.mazeHeight);
+		int minPanelDimension = Math.min(mazePanel.getSize().width, mazePanel.getSize().height);
+		int maxMazeDimension = Math.max(mazeWidth, mazeHeight);
 			
-		this.cellWidth = minPanelDimension/maxMazeDimension;
+		cellWidth = minPanelDimension/maxMazeDimension;
+	}
+	
+	
+	public void requestMazeFocus() {
+		mazePanel.requestFocusInWindow();
 	}
 	
 	
@@ -119,10 +136,11 @@ public class MazeView extends JFrame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			
-			// Iterate through the cells and draw lines where a wall exists
-			if (MazeView.this.maze != null) {
-				for (int i = 0; i < MazeView.this.mazeWidth; i++) {
-					for (int j = 0; j < MazeView.this.mazeHeight; j++) {
+			
+			if (maze != null) {
+				// Iterate through the cells and draw lines where a wall exists
+				for (int i = 0; i < mazeWidth; i++) {
+					for (int j = 0; j < mazeHeight; j++) {
 						Cell myCell = maze[i][j];
 						int xCoord = cellWidth * i;
 						int yCoord = cellWidth * j;
@@ -133,7 +151,7 @@ public class MazeView extends JFrame {
 							g.drawLine(xCoord, yCoord, xCoord+cellWidth, yCoord);
 						}
 						// For bottom row, draw bottom border as well
-						if (j == MazeView.this.mazeHeight-1) {
+						if (j == mazeHeight-1) {
 							g.drawLine(xCoord, yCoord+cellWidth, xCoord+cellWidth, yCoord+cellWidth);
 						}
 						
@@ -143,8 +161,14 @@ public class MazeView extends JFrame {
 							g.drawLine(xCoord, yCoord, xCoord, yCoord+cellWidth);
 						}
 						// For right-most column, draw right border as well
-						if (i == MazeView.this.mazeWidth-1) {
+						if (i == mazeWidth-1) {
 							g.drawLine(xCoord+cellWidth, yCoord, xCoord+cellWidth, yCoord+cellWidth);
+						}
+						
+						// Check if current cell is player's location
+						if (myCell.equals(playerLocation)) {
+							g.setColor(Color.GRAY);
+							g.fillOval(xCoord, yCoord, cellWidth, cellWidth);
 						}
 					}
 				}

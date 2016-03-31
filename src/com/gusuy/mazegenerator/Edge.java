@@ -15,7 +15,7 @@ public class Edge {
 	
 	
 	public Boolean isWall() {
-		return this.wall;
+		return wall;
 	}
 	public void setWall(Boolean wall) {
 		this.wall = wall;

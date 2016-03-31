@@ -15,7 +15,7 @@ public class Maze {
 		
 		generateMazeStructure();
 		// Starting cell is maze[0][0]
-		carveMaze(this.maze[0][0]);
+		carveMaze(getStartPoint());
 	}
 	
 	
@@ -24,19 +24,23 @@ public class Maze {
 	}
 	
 	
+	public Cell getStartPoint() {
+		return maze[0][0];
+	}
+	
 	// Generates the structure of the maze with all walls up
 	private void generateMazeStructure() {
 		// Initialize maze 2D array with given size and fill with cells
-		maze = new Cell[this.width][this.height];
-		for (int i = 0; i < this.width; i++) {
-			for (int j = 0; j < this.height; j++) {
+		maze = new Cell[width][height];
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				maze[i][j] = new Cell();
 			}
 		}		
 		
 		// Set edges - for each direction, set for all cells
-		for (int i = 0; i < this.width; i++) {
-			for (int j = 0; j < this.height; j++) {
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
 				// Set top and bottom edges
 				if (j != 0) {	// Skip top row of cells because edges created as top edge of current cell
 					Edge edge = new Edge(maze[i][j-1], maze[i][j]);

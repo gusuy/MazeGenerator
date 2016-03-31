@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 public class MazeController {
@@ -18,19 +20,22 @@ public class MazeController {
 	private Maze model;										// New model instance will be created on button click
 	private MazeView view;
 	
+	private Player player;
+	
 	public MazeController(MazeView view) {
 		this.view = view;
 		
 		addGenerateButtonListener();
 		addMazePanelResizeListener();
+		addArrowKeyListener();
 	}
 	
 	
 	private void addGenerateButtonListener() {
-		this.view.addGenerateButtonListener(new ActionListener() {
+		view.addGenerateButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int mazeWidth, mazeHeight;
-				String size = MazeController.this.view.getSizeButtonGroup().getSelection().getActionCommand();
+				String size = view.getSizeButtonGroup().getSelection().getActionCommand();
 				if (size.equals("small")) {
 					mazeWidth = MazeController.SML_MAZE_WIDTH;
 					mazeHeight = MazeController.SML_MAZE_HEIGHT;
@@ -47,19 +52,24 @@ public class MazeController {
 					throw new RuntimeException("Invalid size.");
 				}
 				
-				MazeController.this.model = new Maze(mazeWidth, mazeHeight);
-				MazeController.this.view.setMaze(MazeController.this.model.getMaze(), mazeWidth, mazeHeight);
-				MazeController.this.view.repaintMaze();
+				model = new Maze(mazeWidth, mazeHeight);
+				player = new Player(model.getStartPoint());
+				view.setMaze(model.getMaze(), mazeWidth, mazeHeight);
+				view.setPlayerLocation(player.getCurCell());
+				view.calculateCellWidth();
+				view.repaintMaze();
+				view.requestMazeFocus();
 			}
 		});
 	}
 	
 	
 	private void addMazePanelResizeListener() {
-		this.view.addMazePanelResizeListener(new ComponentListener() {
+		view.addMazePanelResizeListener(new ComponentListener() {
 			public void componentResized(ComponentEvent e) {
-				if (MazeController.this.view.getMaze() != null) {
-					MazeController.this.view.repaintMaze();
+				if (view.getMaze() != null) {
+					view.calculateCellWidth();
+					view.repaintMaze();
 				}
 			}
 			public void componentHidden(ComponentEvent e) {
@@ -67,6 +77,37 @@ public class MazeController {
 			public void componentMoved(ComponentEvent e) {
 			}
 			public void componentShown(ComponentEvent e) {
+			}
+		});
+	}
+	
+	
+	private void addArrowKeyListener() {
+		view.addArrowKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				System.out.println("Key Pressed");
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_UP:
+						player.move(Cell.TOP_EDGE);
+						break;
+					case KeyEvent.VK_DOWN:
+						player.move(Cell.BOT_EDGE);
+						break;
+					case KeyEvent.VK_LEFT:
+						player.move(Cell.LEFT_EDGE);
+						break;
+					case KeyEvent.VK_RIGHT:
+						player.move(Cell.RIGHT_EDGE);
+						break;
+					default:
+						break;
+				}
+				view.setPlayerLocation(player.getCurCell());
+				view.repaintMaze();
+			}
+			public void keyTyped(KeyEvent e) {				
+			}	
+			public void keyReleased(KeyEvent e) {				
 			}
 		});
 	}
