@@ -29,8 +29,26 @@ public class MazeController {
 	private void addGenerateButtonListener() {
 		this.view.addGenerateButtonListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MazeController.this.model = new Maze(MazeController.SML_MAZE_WIDTH, MazeController.SML_MAZE_HEIGHT);
-				MazeController.this.view.setMaze(model.getMaze(), MazeController.SML_MAZE_WIDTH, MazeController.SML_MAZE_HEIGHT);
+				int mazeWidth, mazeHeight;
+				String size = MazeController.this.view.getSizeButtonGroup().getSelection().getActionCommand();
+				if (size.equals("small")) {
+					mazeWidth = MazeController.SML_MAZE_WIDTH;
+					mazeHeight = MazeController.SML_MAZE_HEIGHT;
+				}
+				else if (size.equals("medium")) {
+					mazeWidth = MazeController.MED_MAZE_WIDTH;
+					mazeHeight = MazeController.MED_MAZE_HEIGHT;
+				}
+				else if (size.equals("large")) {
+					mazeWidth = MazeController.LRG_MAZE_WIDTH;
+					mazeHeight = MazeController.LRG_MAZE_HEIGHT;
+				}
+				else {
+					throw new RuntimeException("Invalid size.");
+				}
+				
+				MazeController.this.model = new Maze(mazeWidth, mazeHeight);
+				MazeController.this.view.setMaze(MazeController.this.model.getMaze(), mazeWidth, mazeHeight);
 				MazeController.this.view.repaintMaze();
 			}
 		});

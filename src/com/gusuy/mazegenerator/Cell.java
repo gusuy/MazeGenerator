@@ -26,9 +26,17 @@ public class Cell {
 //	}
 	
 	public Edge getEdge(int direction) {
+		if (direction > 3 || direction < 0) {
+			throw new IllegalArgumentException("Invalid direction.");
+		}
+		
 		return this.edges[direction];
 	}
 	public void setEdge(Edge edge, int direction) {
+		if (direction > 3 || direction < 0) {
+			throw new IllegalArgumentException("Invalid direction.");
+		}
+		
 		this.edges[direction] = edge;
 	}
 

@@ -1,15 +1,18 @@
 package com.gusuy.mazegenerator;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 
 public class MazeView extends JFrame {	
@@ -18,6 +21,8 @@ public class MazeView extends JFrame {
 	
 	private JPanel controlPanel;					// Panel containing user input options
 	private JButton generateMazeButton;
+	private JRadioButton smlRadio, medRadio, lrgRadio;
+	private ButtonGroup sizeButtonGroup;
 
 	private JPanel mazePanel;						// Panel containing maze
 	
@@ -33,9 +38,30 @@ public class MazeView extends JFrame {
 		
 		// Create control panel and add to frame
 		this.controlPanel = new JPanel();
-		generateMazeButton = new JButton("Generate Maze");
-		controlPanel.add(generateMazeButton);
+		this.controlPanel.setLayout(new GridBagLayout());
 		this.controlPanel.setPreferredSize(new Dimension(300, 600));
+		
+		generateMazeButton = new JButton("Generate Maze");
+		GridBagConstraints gmConstraint = new GridBagConstraints();
+		gmConstraint.gridx = 1; gmConstraint.gridy = 0;
+		controlPanel.add(generateMazeButton, gmConstraint);
+		
+		smlRadio = new JRadioButton("Small", true);
+		smlRadio.setActionCommand("small");
+		medRadio = new JRadioButton("Medium", false);
+		medRadio.setActionCommand("medium");
+		lrgRadio = new JRadioButton("Large", false);
+		lrgRadio.setActionCommand("large");
+		sizeButtonGroup = new ButtonGroup();
+		sizeButtonGroup.add(smlRadio); sizeButtonGroup.add(medRadio); sizeButtonGroup.add(lrgRadio);
+		GridBagConstraints sConstraint = new GridBagConstraints();
+		sConstraint.gridx = 0; sConstraint.gridy = 1;
+		GridBagConstraints mConstraint = new GridBagConstraints();
+		mConstraint.gridx = 1; mConstraint.gridy = 1;
+		GridBagConstraints lConstraint = new GridBagConstraints();
+		lConstraint.gridx = 2; lConstraint.gridy = 1;
+		controlPanel.add(smlRadio, sConstraint); controlPanel.add(medRadio, mConstraint); controlPanel.add(lrgRadio, lConstraint);
+		
 		this.add(controlPanel, BorderLayout.EAST);
 		
 		this.pack();
@@ -50,6 +76,15 @@ public class MazeView extends JFrame {
 	
 	public void addMazePanelResizeListener(ComponentListener MazePanelResizeListener) {
 		this.mazePanel.addComponentListener(MazePanelResizeListener);
+	}
+	
+	
+	public ButtonGroup getSizeButtonGroup() {
+		return this.sizeButtonGroup;
+	}
+	
+	public JRadioButton getSmallRadio() {
+		return this.smlRadio;
 	}
 	
 	
@@ -84,7 +119,6 @@ public class MazeView extends JFrame {
 	
 	// Inner class to represent the maze panel
 	private class MazePanel extends JPanel {
-		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
