@@ -28,13 +28,14 @@ public class Maze {
 		return maze[0][0];
 	}
 	
+	
 	// Generates the structure of the maze with all walls up
 	private void generateMazeStructure() {
 		// Initialize maze 2D array with given size and fill with cells
 		maze = new Cell[width][height];
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				maze[i][j] = new Cell();
+				maze[i][j] = new Cell(i, j);
 			}
 		}		
 		

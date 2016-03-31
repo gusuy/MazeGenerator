@@ -85,7 +85,6 @@ public class MazeController {
 	private void addArrowKeyListener() {
 		view.addArrowKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
-				System.out.println("Key Pressed");
 				switch (e.getKeyCode()) {
 					case KeyEvent.VK_UP:
 						player.move(Cell.TOP_EDGE);

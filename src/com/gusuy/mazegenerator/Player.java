@@ -22,7 +22,6 @@ public class Player {
 		
 		if (curCell.getEdge(direction) != null && !curCell.getEdge(direction).isWall()) {
 			curCell = curCell.getEdge(direction).getDestination(curCell);
-			System.out.println("Player moved");
 		}
 	}
 }

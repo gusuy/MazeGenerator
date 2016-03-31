@@ -10,20 +10,29 @@ public class Cell {
 	public static final int LEFT_EDGE = 2;
 	public static final int RIGHT_EDGE = 3;
 	
+	private int xCoord, yCoord;
 	private Edge[] edges;						// Cell neighbors - top, bottom, left, right. Null represents an outside border of the maze.
 	private Boolean visited;					// Set to true when cell visited in generation algorithm
 	private ArrayList<Edge> unvisitedNeighbors;	// Represents edges to unvisited neighbors
 	
-	public Cell() {
+	public Cell(int xCoord, int yCoord) {
+		this.xCoord = xCoord;
+		this.yCoord = yCoord;
 		edges = new Edge[4];
 		visited = false;
 		unvisitedNeighbors = new ArrayList<Edge>();
 	}
 	
 	
-//	public Edge[] getEdges() {
-//		return edges;
-//	}
+	public int getXCoord() {
+		return xCoord;
+	}
+	
+	
+	public int getYCoord() {
+		return yCoord;
+	}
+	
 	
 	public Edge getEdge(int direction) {
 		if (direction > 3 || direction < 0) {

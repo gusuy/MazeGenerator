@@ -9,10 +9,10 @@ import org.junit.Test;
 
 public class CellTest {
 	
-	private Cell cell = new Cell();
-	private Cell topNeighbor = new Cell();
-	private Cell botNeighbor = new Cell();
-	private Cell rightNeighbor = new Cell();
+	private Cell cell = new Cell(0, 1);
+	private Cell topNeighbor = new Cell(0, 0);
+	private Cell botNeighbor = new Cell(0, 2);
+	private Cell rightNeighbor = new Cell(1, 1);
 
 	private Edge topEdge = new Edge(cell, topNeighbor);
 	private Edge botEdge = new Edge(cell, botNeighbor);

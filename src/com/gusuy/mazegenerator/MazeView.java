@@ -136,7 +136,6 @@ public class MazeView extends JFrame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			
-			
 			if (maze != null) {
 				// Iterate through the cells and draw lines where a wall exists
 				for (int i = 0; i < mazeWidth; i++) {
@@ -164,14 +163,11 @@ public class MazeView extends JFrame {
 						if (i == mazeWidth-1) {
 							g.drawLine(xCoord+cellWidth, yCoord, xCoord+cellWidth, yCoord+cellWidth);
 						}
-						
-						// Check if current cell is player's location
-						if (myCell.equals(playerLocation)) {
-							g.setColor(Color.GRAY);
-							g.fillOval(xCoord, yCoord, cellWidth, cellWidth);
-						}
 					}
 				}
+				// Draw player
+				g.setColor(Color.GRAY);
+				g.fillOval(playerLocation.getXCoord()*cellWidth, playerLocation.getYCoord()*cellWidth, cellWidth, cellWidth);
 			}
 		}
 	}
