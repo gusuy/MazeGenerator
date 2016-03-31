@@ -83,10 +83,6 @@ public class MazeView extends JFrame {
 		return this.sizeButtonGroup;
 	}
 	
-	public JRadioButton getSmallRadio() {
-		return this.smlRadio;
-	}
-	
 	
 	// Sets view's maze data for use when painting
 	public void setMaze(Cell[][] maze, int mazeWidth, int mazeHeight) {
