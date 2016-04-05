@@ -1,4 +1,4 @@
 # MazeGenerator
-Java Application (Development Phase)
+Java Application
 
 - Creates a "perfect" maze - one with no inaccessible areas and exactly one solution
