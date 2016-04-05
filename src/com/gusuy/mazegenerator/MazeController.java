@@ -54,7 +54,7 @@ public class MazeController {
 				
 				model = new Maze(mazeWidth, mazeHeight);
 				player = new Player(model.getStartCell());
-				view.setMaze(model.getMaze(), mazeWidth, mazeHeight);
+				view.setMaze(model.getMaze(), mazeWidth, mazeHeight, model.getEndCell());
 				view.setPlayerLocation(player.getCurCell());
 				view.calculateCellWidth();
 				view.repaintMaze();

@@ -21,7 +21,8 @@ import javax.swing.JRadioButton;
 public class MazeView extends JFrame {	
 	private Cell[][] maze;
 	private int mazeWidth, mazeHeight, cellWidth;
-	public Cell playerLocation;
+	private Cell playerLocation;
+	private Cell endCell;
 	
 	private JPanel controlPanel;					// Panel containing user input options
 	private JButton generateMazeButton;
@@ -94,10 +95,11 @@ public class MazeView extends JFrame {
 	
 	
 	// Sets view's maze data for use when painting
-	public void setMaze(Cell[][] maze, int mazeWidth, int mazeHeight) {
+	public void setMaze(Cell[][] maze, int mazeWidth, int mazeHeight, Cell endCell) {
 		this.maze = maze;
 		this.mazeWidth = mazeWidth;
 		this.mazeHeight = mazeHeight;
+		this.endCell = endCell;
 	}
 	public Cell[][] getMaze() {
 		return maze;
@@ -171,6 +173,11 @@ public class MazeView extends JFrame {
 						}
 					}
 				}
+				
+				// Fill end cell
+				g.setColor(new Color(204, 255, 255));
+				g.fillRect(endCell.getXCoord()*cellWidth+1, endCell.getYCoord()*cellWidth+1, cellWidth-2, cellWidth-2);
+				
 				// Draw player
 				g.setColor(Color.GRAY);
 				g.fillOval(playerLocation.getXCoord()*cellWidth, playerLocation.getYCoord()*cellWidth, cellWidth, cellWidth);
